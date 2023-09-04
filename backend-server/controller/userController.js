@@ -25,6 +25,7 @@ const registerUser = asyncHandler(async (req, res) => {
       throw new Error('User already exists')
     }
 
+    console.log('register user ', req.body)
     // Hash password
     const salt = await bcrypt.genSalt(10)
     const hashedPassword = await bcrypt.hash(password, salt)
@@ -53,8 +54,8 @@ const registerUser = asyncHandler(async (req, res) => {
 // @route /api/users/login
 // @access public
 const loginUser = asyncHandler(async (req, res) => {
-   console.log('logging in')
-    const {email, password} = req.body;
+  console.log('login -- ', req.body)
+  const {email, password} = req.body;
     const tempUser = await User.findOne({email});
 
     if (tempUser && (await bcrypt.compare(password, tempUser.password))){
@@ -86,8 +87,6 @@ const getMe = asyncHandler(async (req, res) => {
   }
   res.status(200).json(user)
   
-   
-
  })
 
 const generateToken = (userid) => {

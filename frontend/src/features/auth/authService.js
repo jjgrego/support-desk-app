@@ -1,12 +1,12 @@
 import axios from 'axios'
- const API_URL = 'http://localhost:3005/api/users'
-//const API_URL = 'http://localhost:8080/api/users'
-let axiosConfig = {
+ const API_URL = 'http://localhost:8080/api/users'
+const axiosConfig = {
     headers: {
         'Content-Type': 'application/json;charset=UTF-8',
-        'Access-Control-Allow-Origin': true,
+        'Access-Control-Allow-Origin': 'Accept',
     }
   };
+  
 // register user
  const register = async (userData) => {
     console.log('in auth service register')
