@@ -1,8 +1,8 @@
 const mongoose = require('mongoose')
 
+// unable to get url from process.env.MONGO_URI, so including here
 MONGO_URI='mongodb://localhost:27017/supportdeskDB'
 const connectDB = async () => {
-  console.log('in connect...')
 
   try {
     const conn = await mongoose.connect(MONGO_URI)

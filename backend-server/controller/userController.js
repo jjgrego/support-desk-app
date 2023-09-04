@@ -1,6 +1,9 @@
 const bcrypt = require('bcryptjs')
 const User = require('../models/userModel')
+const jwt = require('jsonwebtoken')
 const asyncHandler = require('express-async-handler')
+
+const JWT_SECRET = 'netflix'
 
 // @desc register a new user...
 // @route /api/users
@@ -38,37 +41,61 @@ const registerUser = asyncHandler(async (req, res) => {
         _id: user._id,
         name: user.name,
         email: user.email,
-        // token: generateToken(user._id),
+        token: generateToken(user._id),
       })
     } else {
       res.status(400)
       throw new error('Invalid user data')
     }
   })
+
 // @desc perform login for user...
 // @route /api/users/login
 // @access public
 const loginUser = asyncHandler(async (req, res) => {
- const {email, password} = req.body;
- const tempUser = User.findOne({email});
+   console.log('logging in')
+    const {email, password} = req.body;
+    const tempUser = await User.findOne({email});
 
- console.log('email:  ', email, ' password:  ', password)
     if (tempUser && (await bcrypt.compare(password, tempUser.password))){
-        console.log('have user...')
-        // res.status(200).json({
-        //     _id: user._id,
-        //     name: user.name,
-        //     email: user.email,
-        //     // token: generateToken(user._id),
-        // })
+       console.log('have tempUser in')
+        res.status(200).json({
+            _id: tempUser._id,
+            name: tempUser.name,
+            email: tempUser.email,
+            token: generateToken(tempUser._id),
+        })
     } else {
         console.log('hmmmm, not sure what the hell happened!')
          res.status(401)
          throw new Error('Invalid Credentials Provided by user')
-    }
+     }
+
 })
+
+
+// @desc perform login for user...
+// @route /api/users/login
+// @access public
+const getMe = asyncHandler(async (req, res) => {
+  console.log('getting me!!')
+  const user = {
+    id: req.user._id,
+    email: req.user.email,
+    name: req.user.name,
+  }
+  res.status(200).json(user)
+  
+   
+
+ })
+
+const generateToken = (userid) => {
+  return jwt.sign({userid}, JWT_SECRET, {expiresIn: '30d'})
+}
 
 module.exports = {
     registerUser,
     loginUser,
+    getMe,
 }
