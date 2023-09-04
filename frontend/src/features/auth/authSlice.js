@@ -63,7 +63,7 @@ export const authSlice = createSlice({
             state.message = action.payload
             console.log('error not sure what the hell happened')
         })
-        .addCase(login.pending, (state) => state.isLoading = true)
+        .addCase(login.pending, (state) => {state.isLoading = true})
         .addCase(login.fulfilled, (state, action) => {
             state.isLoading = false
             state.isSuccess = true
