@@ -10,7 +10,7 @@ const JWT_SECRET = 'netflix'
 // @access public
 const registerUser = asyncHandler(async (req, res) => {
     const { name, email, password } = req.body
-
+    console.log('request body:  ', name)
     // Validation
     if (!name || !email || !password) {
       res.status(400)

@@ -6,7 +6,6 @@ import { toast } from 'react-toastify'
 import {useSelector, useDispatch} from 'react-redux'
 import {login, reset} from '../features/auth/authSlice'
 import {useNavigate} from 'react-router-dom'
-import Spinner from '../components/Spinner'
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -18,7 +17,7 @@ function Login() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   
-  const { user, isLoading, isError, isSuccess, message} = useSelector((state) => state.auth)
+  const { user, isError, isSuccess, message} = useSelector((state) => state.auth)
 
 useEffect((user, isError, isSuccess, message) => {
   console.log('in useEffect for login...')
@@ -50,6 +49,7 @@ useEffect((user, isError, isSuccess, message) => {
 
   }
   return (
+
     <>
     
       <section className="heading">
