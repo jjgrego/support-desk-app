@@ -10,11 +10,12 @@ const JWT_SECRET = 'netflix'
 // @access public
 const registerUser = asyncHandler(async (req, res) => {
     const { name, email, password } = req.body
-    console.log('request body:  ', name)
+    console.log('request body:  ', req.body)
     // Validation
     if (!name || !email || !password) {
-      res.status(400)
-      throw new Error('Please include all fields')
+      // res.status(400)
+      // throw new Error('Please include all fields')
+      console.log('name:  ', name, ' email:  ', email, ' password:  ', password)
     }
 
     // Find if user already exists
@@ -24,8 +25,6 @@ const registerUser = asyncHandler(async (req, res) => {
       res.status(400)
       throw new Error('User already exists')
     }
-
-    console.log('register user ', req.body)
     // Hash password
     const salt = await bcrypt.genSalt(10)
     const hashedPassword = await bcrypt.hash(password, salt)
@@ -37,6 +36,7 @@ const registerUser = asyncHandler(async (req, res) => {
       password: hashedPassword,
     })
 
+    console.log('user:  ', user)
     if (user) {
       res.status(201).json({
         _id: user._id,
@@ -90,7 +90,9 @@ const getMe = asyncHandler(async (req, res) => {
  })
 
 const generateToken = (userid) => {
-  return jwt.sign({userid}, JWT_SECRET, {expiresIn: '30d'})
+  const token =  jwt.sign({userid}, JWT_SECRET, {expiresIn: '30d'})
+  console.log('token:  ', token)
+  return token
 }
 
 module.exports = {

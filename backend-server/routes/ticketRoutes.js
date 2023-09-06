@@ -4,6 +4,8 @@ const {protect} = require('../middleware/authMiddleware')
 const {
   createTicket,
   getTickets,
+  getTicket,
+
 } = require('../controller/ticketController')
 
 
